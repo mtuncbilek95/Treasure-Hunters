@@ -4,18 +4,11 @@ using UnityEngine;
 
 public class PlayerJumpState : PlayerAbilityState
 {
-    public PlayerJumpState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
-    {
-    }
+    private int jumpValue;
 
-    public override void AnimationFinishedTrigger()
+    public PlayerJumpState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
     {
-        base.AnimationFinishedTrigger();
-    }
-
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
+        jumpValue = playerData.jumpCount;
     }
 
     public override void DoChecks()
@@ -26,20 +19,22 @@ public class PlayerJumpState : PlayerAbilityState
     public override void Enter()
     {
         base.Enter();
+        jumpValue--;
+        isAbilityDone = true;
+        player.SetVelocityY(playerData.jumpSpeed);
+        player.InAirState.SetIsJumping();
+    }
+    public bool CanJump()
+    {
+        if(jumpValue > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
-    public override void LogicUpdate()
-    {
-        base.LogicUpdate();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
+    public void ResetJumps() => jumpValue = playerData.jumpCount;
 }

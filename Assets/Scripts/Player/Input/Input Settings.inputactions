@@ -50,9 +50,9 @@
                 {
                     "name": "",
                     "id": "1d0c2d9b-cbbe-4a0d-b4f9-3be4e093182c",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<XInputController>/leftStick",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": false,
@@ -116,7 +116,7 @@
                 {
                     "name": "",
                     "id": "224cc45d-edab-4754-92fa-08d13e2b563b",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -138,7 +138,7 @@
                 {
                     "name": "",
                     "id": "2a7124e8-8743-4c8a-9236-103b9659d24e",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<XInputController>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -160,7 +160,7 @@
                 {
                     "name": "",
                     "id": "d8e2620f-6b61-4a54-b49b-01a74298ec53",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<XInputController>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -182,7 +182,7 @@
                 {
                     "name": "",
                     "id": "dc5eb07c-7a65-4bfc-a06d-fe62067cb81b",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<XInputController>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

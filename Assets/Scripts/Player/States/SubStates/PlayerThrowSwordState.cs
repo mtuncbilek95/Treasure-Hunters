@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerThrowSwordState : PlayerAttackState
 {
-    public PlayerThrowSwordState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerThrowSwordState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
     {
     }
 
@@ -26,6 +26,7 @@ public class PlayerThrowSwordState : PlayerAttackState
     public override void Enter()
     {
         base.Enter();
+        player.SetVelocityX(0f);
     }
 
     public override void Exit()
@@ -36,6 +37,10 @@ public class PlayerThrowSwordState : PlayerAttackState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (isAnimationFinished)
+        {
+            stateMachine.ChangeState(player.IdleState);
+        }
     }
 
     public override void PhysicsUpdate()

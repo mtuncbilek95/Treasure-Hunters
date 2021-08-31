@@ -16,7 +16,7 @@ TagManager:
   - Decorations
   - Enemy
   - NPC
-  - 
+  - Items
   - 
   - 
   - 
@@ -49,6 +49,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 1479511979
+    locked: 0
+  - name: Items
+    uniqueID: 3891052793
     locked: 0
   - name: Enemy
     uniqueID: 883144535

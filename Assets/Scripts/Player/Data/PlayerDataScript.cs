@@ -5,11 +5,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="newPlayerDataObject", menuName ="ScriptableObjects/Data/PlayerData/PlayerBaseData")]
 public class PlayerDataScript : ScriptableObject
 {
-    /*
-        In this field you can manage your Player Properties such as
-    Health, MovementSpeed, JumpForce etc.
+    [Range(0,20)]
+    public int maximumSpeed, jumpSpeed;
 
-    Don't forget to create an object to put into PlayerScript which needs to be put in Player Object.
-    
-    */
+    public float groundCheckLength;
+    public int jumpCount = 1;
+
+    [Range(0,1)]
+    public float jumpMultiplier;
 }

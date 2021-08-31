@@ -5,20 +5,24 @@ using UnityEngine;
 public abstract class PlayerState
 {
     public PlayerScript player;
-    public PlayerStateEventTrigger checkScript;
+    public EventListener eventListener;
     public PlayerStateMachine stateMachine;
     public PlayerDataScript playerData;
 
     public string animationBoolName;
 
     public float startTime;
+    public float counterReset = 0.3f;
 
     public bool isAnimationFinished;
 
-    protected PlayerState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName)
+    public int attackCounter;
+
+
+    protected PlayerState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName)
     {
         this.player = player;
-        this.checkScript = checkScript;
+        this.eventListener = checkScript;
         this.stateMachine = stateMachine;
         this.playerData = playerData;
         this.animationBoolName = animationBoolName;
@@ -30,15 +34,16 @@ public abstract class PlayerState
         isAnimationFinished = false;
         startTime = Time.time;
         player.Animator.SetBool(animationBoolName, true);
-        checkScript.StateCheck(animationBoolName, true);
+
     }
     public virtual void Exit()
     {
-        player.Animator.SetBool(animationBoolName, true);
-        checkScript.StateCheck(animationBoolName, false);
+        player.Animator.SetBool(animationBoolName, false);
+
     }
     public virtual void LogicUpdate()
     {
+        player.Animator.SetFloat("haveSword", eventListener.haveSword);
 
     }
 

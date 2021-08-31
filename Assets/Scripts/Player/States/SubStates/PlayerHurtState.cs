@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class PlayerHurtState : PlayerAbilityState
 {
-    public PlayerHurtState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerHurtState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
     {
-
     }
 
     public override void AnimationFinishedTrigger()

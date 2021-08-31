@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerIdleState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
     {
     }
 
@@ -26,16 +26,23 @@ public class PlayerIdleState : PlayerGroundedState
     public override void Enter()
     {
         base.Enter();
+        player.SetVelocityX(0f);
     }
 
     public override void Exit()
     {
         base.Exit();
+        attackCounter = 0;
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (xInput != 0)
+        {
+            stateMachine.ChangeState(player.MoveState);
+        }
     }
 
     public override void PhysicsUpdate()

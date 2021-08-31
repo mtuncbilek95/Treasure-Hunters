@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour
 {
     #region Button Variables
-    private float buttonHoldTime = 0.2f;
+    private float buttonHoldTime = 0.4f;
     private float startTime;
     #endregion
 
@@ -56,8 +56,9 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.started)
         {
             JumpInput = true;
-            JumpInputStop = false;
             startTime = Time.time;
+            JumpInputStop = false;
+
         }
         else if (context.canceled)
         {
@@ -70,7 +71,7 @@ public class PlayerInputHandler : MonoBehaviour
         {
             AttackInput = true;
             AttackInputStop = false;
-            startTime = Time.time;
+
         }
         else if (context.canceled)
         {
@@ -83,7 +84,6 @@ public class PlayerInputHandler : MonoBehaviour
         {
             InteractInput = true;
             InteractInputStop = false;
-            startTime = Time.time;
         }
         else if (context.canceled)
         {
@@ -96,7 +96,6 @@ public class PlayerInputHandler : MonoBehaviour
         {
             ThrowInput = true;
             ThrowInputStop = false;
-            startTime = Time.time;
         }
         else if (context.canceled)
         {
@@ -115,24 +114,19 @@ public class PlayerInputHandler : MonoBehaviour
         if (JumpInput && Time.time >= startTime + buttonHoldTime)
         {
             JumpInput = false;
-            startTime = 0;
         }
         else if (AttackInput && Time.time >= startTime + buttonHoldTime)
         {
             AttackInput = false;
-            startTime = 0;
         }
         else if (InteractInput && Time.time >= startTime + buttonHoldTime)
         {
-            AttackInput = false;
-            startTime = 0;
+            InteractInput = false;
         }
         else if (ThrowInput && Time.time >= startTime + buttonHoldTime)
         {
-            AttackInput = false;
-            startTime = 0;
+            ThrowInput = false;
         }
-
     }
     #endregion
 }

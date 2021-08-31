@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerAbilityState : PlayerState
 {
-    public PlayerAbilityState(PlayerScript player, PlayerStateEventTrigger checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    protected bool groundCheck;
+    protected bool isAbilityDone;
+    
+    protected int xInput;
+
+    public PlayerAbilityState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
     {
     }
 
@@ -21,11 +26,13 @@ public class PlayerAbilityState : PlayerState
     public override void DoChecks()
     {
         base.DoChecks();
+        groundCheck = player.GroundCheck();
     }
 
     public override void Enter()
     {
         base.Enter();
+        isAbilityDone = false;
     }
 
     public override void Exit()
@@ -36,8 +43,21 @@ public class PlayerAbilityState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
-    }
+        xInput = player.PlayerInput.NormXInput;
 
+        if (isAbilityDone)
+        {
+            if (groundCheck && player.CurrentVelocity.y < 0.01f)
+            {
+                stateMachine.ChangeState(player.IdleState);
+            }
+            else
+            {
+                stateMachine.ChangeState(player.InAirState);
+            }
+        }
+        
+    }
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
