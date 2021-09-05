@@ -26,6 +26,7 @@ public class Crabby_EntityScript : EnemyScript, IDamagable
         CrabbyAttackState = new Crabby_EnemyAttackState(this, StateMachine, "attackState", this);
 
         StateMachine.Initialize(CrabbyIdleState);
+
         EnemyHealth = _enemyData.Health;
     }
 
@@ -47,8 +48,11 @@ public class Crabby_EntityScript : EnemyScript, IDamagable
     }
     public void TakeDamage()
     {
-        EnemyHealth--;
-        StateMachine.ChangeState(CrabbyHurtState);
+        if (StateMachine.CurrentState.canTakeDamage)
+        {
+            EnemyHealth--;
+            StateMachine.ChangeState(CrabbyHurtState);
+        }
     }
     protected void OnDrawGizmosSelected()
     {

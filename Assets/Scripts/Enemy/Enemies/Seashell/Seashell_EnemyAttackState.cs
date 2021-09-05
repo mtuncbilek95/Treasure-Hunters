@@ -10,38 +10,13 @@ public class Seashell_EnemyAttackState : EnemyAttackState
         this.seashellEntityScript = seashellEntityScript;
     }
 
-    public override void AnimationFinishedTrigger()
-    {
-        base.AnimationFinishedTrigger();
-    }
-
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
-    }
-
-    public override void DoChecks()
-    {
-        base.DoChecks();
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+        if (isAnimationFinished)
+        {
+            stateMachine.ChangeState(seashellEntityScript.SeashellIdleState);
+        }
     }
 
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
-    }
 }

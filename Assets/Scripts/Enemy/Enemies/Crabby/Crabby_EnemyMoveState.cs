@@ -46,7 +46,7 @@ public class Crabby_EnemyMoveState : EnemyMoveState
         }
         else if (crabbyEntityScript.LedgeCheck())
         {
-            crabbyEntityScript.SetVelocityX(5f * entity.FacingDirection);
+            crabbyEntityScript.SetVelocityX(5f * crabbyEntityScript.FacingDirection);
         }
         else if (!crabbyEntityScript.LedgeCheck())
         {

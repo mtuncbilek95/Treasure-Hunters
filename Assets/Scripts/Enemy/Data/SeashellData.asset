@@ -15,4 +15,4 @@ MonoBehaviour:
   MoveSpeed: 0
   ledgeCheckLength: 0
   enemyRadius: 0
-  Health: 0
+  Health: 10

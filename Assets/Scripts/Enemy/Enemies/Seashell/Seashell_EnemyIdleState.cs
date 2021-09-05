@@ -5,43 +5,37 @@ using UnityEngine;
 public class Seashell_EnemyIdleState : EnemyIdleState
 {
     private Seashell_EntityScript seashellEntityScript;
+    private float timer;
     public Seashell_EnemyIdleState(EnemyScript entity, EnemyStateMachine stateMachine, string animationBoolName, Seashell_EntityScript seashellEntityScript) : base(entity, stateMachine, animationBoolName)
     {
         this.seashellEntityScript = seashellEntityScript;
     }
 
-    public override void AnimationFinishedTrigger()
-    {
-        base.AnimationFinishedTrigger();
-    }
-
-    public override void AnimationTrigger()
-    {
-        base.AnimationTrigger();
-    }
-
-    public override void DoChecks()
-    {
-        base.DoChecks();
-    }
-
     public override void Enter()
     {
         base.Enter();
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        SetAttackTimer();
     }
 
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if (seashellEntityScript.EnemyCheck())
+        {
+            if(Time.time >= startTime + timer)
+            {
+                stateMachine.ChangeState(seashellEntityScript.SeashellAttackState);
+            }
+        }
+        else if (seashellEntityScript.EnemyHealth <= 0)
+        {
+            stateMachine.ChangeState(seashellEntityScript.SeashellOpenState);
+        }
     }
 
-    public override void PhysicsUpdate()
+    private void SetAttackTimer()
     {
-        base.PhysicsUpdate();
+        timer = Random.Range(0.25f, 0.75f);
     }
 }

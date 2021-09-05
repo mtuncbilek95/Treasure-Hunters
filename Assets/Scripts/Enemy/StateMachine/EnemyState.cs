@@ -50,7 +50,7 @@ public abstract class EnemyState
     public virtual void AnimationFinishedTrigger() => isAnimationFinished = true;
     private void TakeDamageCheck()
     {
-        if (animationBoolName != "hurtState" || animationBoolName != "deadState")
+        if (animationBoolName != "hurtState" || animationBoolName != "deadState" || animationBoolName != "openState")
         {
             canTakeDamage = true;
         }

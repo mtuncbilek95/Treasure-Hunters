@@ -28,7 +28,6 @@ public class EnemyScript : MonoBehaviour
         StateMachine = new EnemyStateMachine();
 
         FacingDirection = 1;
-
     }
 
     protected virtual void Update()

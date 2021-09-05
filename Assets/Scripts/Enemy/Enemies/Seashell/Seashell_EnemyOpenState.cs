@@ -28,6 +28,7 @@ public class Seashell_EnemyOpenState : EnemyState
     public override void Enter()
     {
         base.Enter();
+        canTakeDamage = false;
     }
 
     public override void Exit()

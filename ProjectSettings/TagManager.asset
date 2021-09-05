@@ -63,3 +63,6 @@ TagManager:
   - name: Player
     uniqueID: 1669768863
     locked: 0
+  - name: Pearl
+    uniqueID: 3895330127
+    locked: 0
