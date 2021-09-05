@@ -11,6 +11,7 @@ public class Seashell_EntityScript : EnemyScript, IDamagable
     public Seashell_EnemyOpenState SeashellOpenState { get; private set; }
     public Seashell_EnemyDeadState SeashellDeadState { get; private set; }
     #endregion
+
     public GameObject pearlObject;
     public GameObject firePoint;
 
