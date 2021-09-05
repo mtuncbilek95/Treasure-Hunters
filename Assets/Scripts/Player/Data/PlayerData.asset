@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   maximumSpeed: 7
-  jumpSpeed: 14
+  jumpSpeed: 18
   groundCheckLength: 0.3
   jumpCount: 1
   jumpMultiplier: 0.47
+  weaponRadius: 0.3

@@ -13,4 +13,6 @@ public class PlayerDataScript : ScriptableObject
 
     [Range(0,1)]
     public float jumpMultiplier;
+
+    public float weaponRadius;
 }

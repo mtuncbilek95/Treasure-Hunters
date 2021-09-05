@@ -11,7 +11,8 @@ public class PlayerInAirState : PlayerState
     public bool isJumping;
 
     protected int xInput;
-    public PlayerInAirState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+
+    public PlayerInAirState(PlayerScript player, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, stateMachine, playerData, animationBoolName)
     {
     }
 

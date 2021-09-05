@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerDeadState : PlayerHurtState
 {
-    public PlayerDeadState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerDeadState(PlayerScript player, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, stateMachine, playerData, animationBoolName)
     {
     }
 

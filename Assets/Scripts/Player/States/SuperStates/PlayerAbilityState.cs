@@ -9,7 +9,7 @@ public class PlayerAbilityState : PlayerState
     
     protected int xInput;
 
-    public PlayerAbilityState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerAbilityState(PlayerScript player, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, stateMachine, playerData, animationBoolName)
     {
     }
 
@@ -33,6 +33,10 @@ public class PlayerAbilityState : PlayerState
     {
         base.Enter();
         isAbilityDone = false;
+        if (player.attackCounter >= 3)
+        {
+            player.attackCounter = 0;
+        }
     }
 
     public override void Exit()

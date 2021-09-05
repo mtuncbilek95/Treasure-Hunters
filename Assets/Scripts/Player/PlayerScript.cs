@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody2D RB { get; private set; }
     public Animator Animator { get; private set; }
     public PlayerInputHandler PlayerInput { get; private set; }
-    public EventListener EventListener { get; private set; }
 
     [SerializeField] private PlayerDataScript playerData;
 
@@ -29,6 +29,8 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Variables
+    public Transform weaponEnemyCheckObject;
+
     public Transform groundCheckObject;
     public LayerMask groundCheck;
     public Vector2 CurrentVelocity { get; private set; }
@@ -36,27 +38,32 @@ public class PlayerScript : MonoBehaviour
 
     public Vector3 groundRaycastOffset;
     public static int FacingDirection { get; private set; }
+
+    public int haveSword;
+    public int attackCounter;
+    private float attackTimer;
+    public bool CanTakeSword { get; private set; }
     #endregion
 
-    #region Special Booleans
-    public bool canTakeSword;
+    #region Unity Events
+    public List<UnityEvent> unityEvents;
+
     #endregion
 
     #region Unity Callback Functions
     private void Awake()
     {
-        EventListener = GetComponent<EventListener>();
         StateMachine = new PlayerStateMachine();
-        IdleState = new PlayerIdleState(this, EventListener, StateMachine, playerData, "idleState");
-        MoveState = new PlayerMoveState(this, EventListener, StateMachine, playerData, "moveState");
-        JumpState = new PlayerJumpState(this, EventListener, StateMachine, playerData, "inAirState");
-        LandState = new PlayerLandState(this, EventListener, StateMachine, playerData, "groundedState");
-        InAirState = new PlayerInAirState(this, EventListener, StateMachine, playerData, "inAirState");
-        AttackState = new PlayerAttackState(this, EventListener, StateMachine, playerData, "attackState");
-        AirAttackState = new PlayerAirAttackState(this, EventListener, StateMachine, playerData, "airAttackState");
-        ThrowSwordState = new PlayerThrowSwordState(this, EventListener, StateMachine, playerData, "throwState");
-        HurtState = new PlayerHurtState(this, EventListener, StateMachine, playerData, "hurtState");
-        DeadState = new PlayerDeadState(this, EventListener, StateMachine, playerData, "deadState");
+        IdleState = new PlayerIdleState(this, StateMachine, playerData, "idleState");
+        MoveState = new PlayerMoveState(this, StateMachine, playerData, "moveState");
+        JumpState = new PlayerJumpState(this, StateMachine, playerData, "inAirState");
+        LandState = new PlayerLandState(this, StateMachine, playerData, "groundedState");
+        InAirState = new PlayerInAirState(this, StateMachine, playerData, "inAirState");
+        AttackState = new PlayerAttackState(this, StateMachine, playerData, "attackState");
+        AirAttackState = new PlayerAirAttackState(this, StateMachine, playerData, "airAttackState");
+        ThrowSwordState = new PlayerThrowSwordState(this, StateMachine, playerData, "throwState");
+        HurtState = new PlayerHurtState(this, StateMachine, playerData, "hurtState");
+        DeadState = new PlayerDeadState(this, StateMachine, playerData, "deadState");
     }
     private void Start()
     {
@@ -65,14 +72,15 @@ public class PlayerScript : MonoBehaviour
         PlayerInput = GetComponent<PlayerInputHandler>();
 
         FacingDirection = 1;
-
+        haveSword = -1;
         StateMachine.Initialize(IdleState);
     }
     private void Update()
     {
         CurrentVelocity = RB.velocity;
+        StateMachine.CurrentState.canTakeSword = CanTakeSword;
         StateMachine.CurrentState.LogicUpdate();
-
+        SetTimer();
     }
     private void FixedUpdate()
     {
@@ -99,6 +107,19 @@ public class PlayerScript : MonoBehaviour
     #endregion
 
     #region Set Functions
+    public void SetDamage()
+    {
+        Collider2D[] enemyList = Physics2D.OverlapCircleAll(weaponEnemyCheckObject.position, playerData.weaponRadius);
+        foreach (var collider in enemyList)
+        {
+            IDamagable enemy = collider.GetComponentInParent<IDamagable>();
+            if(enemy != null)
+            {
+                enemy.TakeDamage();
+            }
+            
+        }
+    }
     public void SetVelocityX(float velocity)
     {
         workspace.Set(velocity, CurrentVelocity.y);
@@ -116,6 +137,28 @@ public class PlayerScript : MonoBehaviour
         FacingDirection *= -1;
         transform.Rotate(0.0f, 180.0f, 0.0f);
     }
+    private void SetTimer()
+    {
+        if (attackCounter == 1)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= 0.5f)
+            {
+                attackTimer = 0;
+                attackCounter = 0;
+            }
+        }
+        else if (attackCounter == 2)
+        {
+            attackTimer += Time.deltaTime;
+            if (attackTimer >= 0.5f)
+            {
+                attackTimer = 0;
+                attackCounter = 0;
+            }
+        }
+
+    }
     #endregion
 
     #region Extra Unity Functions
@@ -124,24 +167,26 @@ public class PlayerScript : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(groundCheckObject.position + groundRaycastOffset, groundRaycastOffset + groundCheckObject.position + Vector3.down * playerData.groundCheckLength);
         Gizmos.DrawLine(groundCheckObject.position - groundRaycastOffset, groundCheckObject.position - groundRaycastOffset + Vector3.down * playerData.groundCheckLength);
+        Gizmos.DrawWireSphere(weaponEnemyCheckObject.position, playerData.weaponRadius);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.transform.name == "Sword")
         {
-            canTakeSword = true;
+            CanTakeSword = true;
         }
-        
+
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.transform.name == "Sword")
+        if (collision.transform.name == "Sword")
         {
-            canTakeSword = false;
+            CanTakeSword = false;
         }
     }
     private void AnimationTriggerFunction() => StateMachine.CurrentState.AnimationTrigger();
     private void AnimationFinishedTriggerFunction() => StateMachine.CurrentState.AnimationFinishedTrigger();
-    private void EventListenerInvoker() => EventListener.throwSword?.Invoke();
+    private void EventTriggerFunction() => unityEvents[1]?.Invoke();
+
     #endregion
 }

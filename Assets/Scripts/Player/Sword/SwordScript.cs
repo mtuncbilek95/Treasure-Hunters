@@ -82,10 +82,6 @@ public class SwordScript : MonoBehaviour
         {
             InteractButton.SetActive(true);
         }
-        else if (collision.tag != "Player" || collision == null)
-        {
-            InteractButton.SetActive(false);
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

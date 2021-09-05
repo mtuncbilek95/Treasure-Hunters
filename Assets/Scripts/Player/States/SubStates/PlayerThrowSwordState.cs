@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerThrowSwordState : PlayerAttackState
 {
-    public PlayerThrowSwordState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerThrowSwordState(PlayerScript player, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, stateMachine, playerData, animationBoolName)
     {
     }
 

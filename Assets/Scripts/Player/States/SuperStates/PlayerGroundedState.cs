@@ -12,7 +12,7 @@ public class PlayerGroundedState : PlayerState
     protected bool interactInput;
     protected bool throwInput;
 
-    public PlayerGroundedState(PlayerScript player, EventListener checkScript, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, checkScript, stateMachine, playerData, animationBoolName)
+    public PlayerGroundedState(PlayerScript player, PlayerStateMachine stateMachine, PlayerDataScript playerData, string animationBoolName) : base(player, stateMachine, playerData, animationBoolName)
     {
     }
 
@@ -52,18 +52,18 @@ public class PlayerGroundedState : PlayerState
         interactInput = player.PlayerInput.InteractInput;
         throwInput = player.PlayerInput.ThrowInput;
 
-        if(interactInput && player.canTakeSword)
+        if (interactInput && canTakeSword)
         {
-            eventListener.takeSword?.Invoke();
-            eventListener.haveSword = 1;
+            player.unityEvents[0]?.Invoke();
+            player.haveSword = 1;
         }
-        else if (groundCheck && throwInput && eventListener.haveSword == 1)
+        else if (groundCheck && throwInput && player.haveSword == 1)
         {
             stateMachine.ChangeState(player.ThrowSwordState);
-            eventListener.haveSword = -1;
+            player.haveSword = -1;
         }
 
-        else if(groundCheck && attackInput && eventListener.haveSword == 1)
+        else if(groundCheck && attackInput && player.haveSword == 1)
         {
             stateMachine.ChangeState(player.AttackState);
         }
@@ -85,11 +85,4 @@ public class PlayerGroundedState : PlayerState
         base.PhysicsUpdate();
     }
 
-    protected void AttackCounterReset()
-    {
-        if (Time.time >= startTime + 1f)
-        {
-            attackCounter = 0;
-        }
-    }
 }
